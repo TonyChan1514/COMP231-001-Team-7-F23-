@@ -27,15 +27,15 @@ INSERT INTO comp231_prescriptions (prescriptionID, customerID, drugID, patientNa
 INSERT INTO comp231_prescriptions (prescriptionID, customerID, drugID, patientName, patientDOB, refills, orderCount, doctorName, doctorAddress, doctorPhone)
 	VALUES(seq_prescriptionID.NEXTVAL, 3, 5, 'Sammi Smith', TO_DATE('1946-04-23', 'YYYY-MM-DD'), 1, 0, 'Dr. Cheung', '961 Good St, Markham, ON', '647-344-6299');
 
-INSERT INTO dbproj_orderstatus_dict (orderStatus, orderStatusDesc)
+INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
     VALUES(1, 'CREATED');
-INSERT INTO dbproj_orderStatus_dict (orderStatus, orderStatusDesc)
+INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
     VALUES(2, 'PACKAGED');
-INSERT INTO dbproj_orderStatus_dict (orderStatus, orderStatusDesc)
+INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
     VALUES(3, 'SHIPPED');
-INSERT INTO dbproj_orderStatus_dict (orderStatus, orderStatusDesc)
+INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
     VALUES(4, 'DELIVERED');
-INSERT INTO dbproj_orderStatus_dict (orderStatus, orderStatusDesc)
+INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
     VALUES(9, 'RETURNED');
 
 COMMIT;

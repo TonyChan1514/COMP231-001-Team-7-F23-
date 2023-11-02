@@ -409,35 +409,6 @@ AS
 END shopping_handler_pkg;
 /
 
-DECLARE
-    p_is_new_cart_created NUMBER(1);
-    p_cartID comp231_shopping_carts.cartID%TYPE;
-BEGIN
-    DBMS_OUTPUT.PUT_LINE('------ Test for package order_handler_pkg ------');
-    -- Check in, add items to shoppingcart and Checkout
-    DBMS_OUTPUT.PUT_LINE('Case 1:');
-    DBMS_OUTPUT.PUT_LINE('<< Checkin - Procedure customer_checkIn >>');
-    shopping_handler_pkg.customer_checkIn(8, p_is_new_cart_created, p_cartID);
-    IF p_is_new_cart_created = 1 THEN
-        DBMS_OUTPUT.PUT_LINE('A new shopping cart ID ' || shopping_handler_pkg.g_open_cartID || ' is created.');
-    END IF;
-    DBMS_OUTPUT.PUT_LINE('<< Add to shopping cart - Procedure add_to_shopping_cart >>');
-    shopping_handler_pkg.add_to_shopping_cart(9, 8, 3);
-    shopping_handler_pkg.add_to_shopping_cart(9, 8, 2);
-    shopping_handler_pkg.add_to_shopping_cart(6, NULL, 50);
-    DBMS_OUTPUT.PUT_LINE('<< Checkout - Procedure shopping_cart_checkout >>');
-    shopping_handler_pkg.shopping_cart_checkout(NULL);
-    DBMS_OUTPUT.PUT_LINE('Case 2:');
-    DBMS_OUTPUT.PUT_LINE('<< Checkin - Procedure customer_checkIn >>');
-    shopping_handler_pkg.customer_checkIn(4, p_is_new_cart_created, p_cartID);
-    IF p_is_new_cart_created = 1 THEN
-        DBMS_OUTPUT.PUT_LINE('A new shopping cart ID ' || shopping_handler_pkg.g_open_cartID || ' is created.');
-    END IF;
-    DBMS_OUTPUT.PUT_LINE('<< Add to shopping cart - Procedure add_to_shopping_cart >>');
-    shopping_handler_pkg.add_to_shopping_cart(10, 9, 3);
-END;
-/
-
 CREATE OR REPLACE PACKAGE order_handler_pkg
 AS
     g_new_orderStatus comp231_orders.orderStatus%TYPE;     -- New order status of the latest status update
