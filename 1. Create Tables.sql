@@ -85,6 +85,12 @@ CREATE TABLE comp231_cart_items (
     CONSTRAINT cart_items_prescriptionID_FK FOREIGN KEY (prescriptionID) REFERENCES comp231_prescriptions (prescriptionID)
 );
 
+CREATE TABLE comp231_orderstatus_dict (
+    orderStatus NUMBER(1) NOT NULL,
+    orderStatusDesc VARCHAR(50) NOT NULL,
+    CONSTRAINT dict_orderStatus_PK PRIMARY KEY (orderStatus)
+);
+
 COMMIT;
 
 -- BUILD INDEXES
