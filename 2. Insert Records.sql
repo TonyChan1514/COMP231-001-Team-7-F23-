@@ -5,7 +5,7 @@ INSERT INTO comp231_customers (customerID, firstName, lastName, address, phone, 
 INSERT INTO comp231_customers (customerID, firstName, lastName, address, phone, email)
     VALUES(seq_customerID.NEXTVAL, 'Johnny', 'Johnson', '112 Sammi Aveune, Unit 407, Scar, ON', '641-5678-4431', 'johnny.ck.johnson@my.centennialcollege.ca');
 INSERT INTO comp231_customers (customerID, firstName, lastName, address, phone, email)
-    VALUES(seq_customerID.NEXTVAL, 'Sammi', 'Smith', '850 McCowan Road, Calgary, AB, T2P 1AA', '403-7541-6387', 'sammi.x.smith@gmail.com');
+    VALUES(seq_customerID.NEXTVAL, 'Sammi', 'Anson', '857 McCowan Road, Scarborough, ON', '403-7541-6387', 'sammi.x.smith@gmail.com');
 
 INSERT INTO comp231_drugs (drugID, isPrescription, drugName, retailPrice, stock)
     VALUES(seq_drugID.NEXTVAL, 0, 'Panadol', 12.00, 400);
@@ -25,17 +25,12 @@ INSERT INTO comp231_prescriptions (prescriptionID, customerID, drugID, patientNa
 INSERT INTO comp231_prescriptions (prescriptionID, customerID, drugID, patientName, patientDOB, refills, orderCount, doctorName, doctorAddress, doctorPhone)
 	VALUES(seq_prescriptionID.NEXTVAL, 2, 2, 'Johnny Johnson', TO_DATE('1970-03-13', 'YYYY-MM-DD'), 2, 1, 'Dr. Fung', '2341 Midland Ave, Scarborough, ON', '647-322-4227');
 INSERT INTO comp231_prescriptions (prescriptionID, customerID, drugID, patientName, patientDOB, refills, orderCount, doctorName, doctorAddress, doctorPhone)
-	VALUES(seq_prescriptionID.NEXTVAL, 3, 5, 'Sammi Smith', TO_DATE('1946-04-23', 'YYYY-MM-DD'), 1, 0, 'Dr. Cheung', '961 Good St, Markham, ON', '647-344-6299');
+	VALUES(seq_prescriptionID.NEXTVAL, 3, 5, 'Sammi Anson', TO_DATE('1946-07-17', 'YYYY-MM-DD'), 1, 0, 'Dr. Cheung', '961 Good St, Markham, ON', '647-344-6299');
 
-INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
-    VALUES(1, 'CREATED');
-INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
-    VALUES(2, 'PACKAGED');
-INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
-    VALUES(3, 'SHIPPED');
-INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
-    VALUES(4, 'DELIVERED');
-INSERT INTO comp231_orderstatus_dict (orderStatus, orderStatusDesc)
-    VALUES(9, 'RETURNED');
+INSERT INTO comp231_orderstatus_map (orderStatus, description) VALUES(1, 'CREATED');
+INSERT INTO comp231_orderstatus_map (orderStatus, description) VALUES(2, 'PACKAGED');
+INSERT INTO comp231_orderstatus_map (orderStatus, description) VALUES(3, 'SHIPPED');
+INSERT INTO comp231_orderstatus_map (orderStatus, description) VALUES(4, 'DELIVERED');
+INSERT INTO comp231_orderstatus_map (orderStatus, description) VALUES(9, 'RETURNED');
 
 COMMIT;

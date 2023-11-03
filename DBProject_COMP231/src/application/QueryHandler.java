@@ -142,7 +142,7 @@ public class QueryHandler {
 	}
 	
 	public int getOrderStatusCount() throws Exception {
-		sqlStatement = "SELECT COUNT(*) as record_count FROM comp231_orderstatus_dict";
+		sqlStatement = "SELECT COUNT(*) as record_count FROM comp231_orderstatus_map";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		resultSet = preparedStatement.executeQuery();
 		resultSet.next();
@@ -174,7 +174,7 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getOrderStatusList() throws Exception {
-		sqlStatement = "SELECT INITCAP(orderStatusDesc) FROM comp231_orderstatus_dict ORDER BY orderStatus";
+		sqlStatement = "SELECT INITCAP(description) FROM comp231_orderstatus_map ORDER BY orderStatus";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		return preparedStatement.executeQuery();
 	}
@@ -228,8 +228,8 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getOrderInformationAll() throws Exception {
-		sqlStatement = "SELECT a.orderID, d.firstName || ' ' || d.lastName as customerName, d.phone, d.email, orderDate, shippingDate, shippingAddress, INITCAP(orderStatusDesc) as orderStatusDesc "
-				+ "FROM comp231_orders a INNER JOIN comp231_orderstatus_dict b ON a.orderStatus = b.orderStatus "
+		sqlStatement = "SELECT a.orderID, d.firstName || ' ' || d.lastName as customerName, d.phone, d.email, orderDate, shippingDate, shippingAddress, INITCAP(description) as description "
+				+ "FROM comp231_orders a INNER JOIN comp231_orderstatus_map b ON a.orderStatus = b.orderStatus "
 				+ "INNER JOIN comp231_shopping_carts c ON a.orderID = c.orderID INNER JOIN comp231_customers d ON c.customerID = d.customerID ORDER BY a.orderID";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		resultSet = preparedStatement.executeQuery();
@@ -237,8 +237,8 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getOrderInformationByOrderID(int orderID) throws Exception {
-		sqlStatement = "SELECT a.orderID, d.firstName || ' ' || d.lastName as customerName, d.phone, d.email, orderDate, shippingDate, shippingAddress, INITCAP(orderStatusDesc) as orderStatusDesc "
-				+ "FROM comp231_orders a INNER JOIN comp231_orderstatus_dict b ON a.orderStatus = b.orderStatus "
+		sqlStatement = "SELECT a.orderID, d.firstName || ' ' || d.lastName as customerName, d.phone, d.email, orderDate, shippingDate, shippingAddress, INITCAP(description) as description "
+				+ "FROM comp231_orders a INNER JOIN comp231_orderstatus_map b ON a.orderStatus = b.orderStatus "
 				+ "INNER JOIN comp231_shopping_carts c ON a.orderID = c.orderID INNER JOIN comp231_customers d ON c.customerID = d.customerID "
 				+ "WHERE a.orderID = ?";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
@@ -248,8 +248,8 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getOrderInformationByCustomerID(int orderID) throws Exception {
-		sqlStatement = "SELECT a.orderID, d.firstName || ' ' || d.lastName as customerName, d.phone, d.email, orderDate, shippingDate, shippingAddress, INITCAP(orderStatusDesc) as orderStatusDesc "
-				+ "FROM comp231_orders a INNER JOIN comp231_orderstatus_dict b ON a.orderStatus = b.orderStatus "
+		sqlStatement = "SELECT a.orderID, d.firstName || ' ' || d.lastName as customerName, d.phone, d.email, orderDate, shippingDate, shippingAddress, INITCAP(description) as description "
+				+ "FROM comp231_orders a INNER JOIN comp231_orderstatus_map b ON a.orderStatus = b.orderStatus "
 				+ "INNER JOIN comp231_shopping_carts c ON a.orderID = c.orderID INNER JOIN comp231_customers d ON c.customerID = d.customerID "
 				+ "WHERE d.customerID = ? ORDER BY a.orderID";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
@@ -310,12 +310,12 @@ public class QueryHandler {
 		return preparedStatement.executeUpdate() > 0;
 	}
 	
-	public void updateOrderStatusByID(int orderID, String orderStatusDesc) throws Exception {
+	public void updateOrderStatusByID(int orderID, String description) throws Exception {
 		// Update order status by order ID
 		String procedureCall = "{call order_handler_pkg.update_order_status(?, shopping_handler_pkg.get_orderStatus_by_desc(?))}";
         CallableStatement callableStatement = dbConnection.prepareCall(procedureCall);
         callableStatement.setInt(1, orderID);
-        callableStatement.setString(2, orderStatusDesc);
+        callableStatement.setString(2, description);
         callableStatement.execute();
 	}
 	

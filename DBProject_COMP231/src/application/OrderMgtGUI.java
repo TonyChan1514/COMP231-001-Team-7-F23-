@@ -254,7 +254,7 @@ public class OrderMgtGUI {
 		    orderDate = resultSet.getDate("orderDate");
 		    shippingDate = resultSet.getDate("shippingDate");
 		    shippingAddress = resultSet.getString("shippingAddress");
-		    orderStatusDesc = resultSet.getString("orderStatusDesc");
+		    orderStatusDesc = resultSet.getString("description");
             data.add(new OrderInfo(orderID, customerName, phone, email, orderDate, shippingDate, shippingAddress, orderStatusDesc));
         }
 		
@@ -284,7 +284,7 @@ public class OrderMgtGUI {
 		    orderDate = resultSet.getDate("orderDate");
 		    shippingDate = resultSet.getDate("shippingDate");
 		    shippingAddress = resultSet.getString("shippingAddress");
-		    orderStatusDesc = resultSet.getString("orderStatusDesc");
+		    orderStatusDesc = resultSet.getString("description");
             data.add(new OrderInfo(orderID, customerName, phone, email, orderDate, shippingDate, shippingAddress, orderStatusDesc));
         }
 		

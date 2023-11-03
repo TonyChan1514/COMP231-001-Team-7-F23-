@@ -128,7 +128,7 @@ AS
     FUNCTION get_cart_total RETURN NUMBER;
     
     FUNCTION get_orderStatus_by_desc(
-        p_orderStatusDesc in comp231_orderstatus_dict.orderStatusDesc%TYPE
+        p_description in comp231_orderstatus_map.description%TYPE
     ) RETURN comp231_orders.orderStatus%TYPE;
     
     PROCEDURE add_to_shopping_cart(
@@ -294,15 +294,15 @@ AS
     
     -- Get the orderStatus by its description
     FUNCTION get_orderStatus_by_desc(
-        p_orderStatusDesc IN comp231_orderstatus_dict.orderStatusDesc%TYPE
+        p_description IN comp231_orderstatus_map.description%TYPE
     ) RETURN comp231_orders.orderStatus%TYPE
     IS
         r_orderStatus comp231_orders.orderStatus%TYPE;
     BEGIN
         SELECT orderStatus
         INTO r_orderStatus
-        FROM comp231_orderstatus_dict
-        WHERE UPPER(orderStatusDesc) = UPPER(p_orderStatusDesc);
+        FROM comp231_orderstatus_map
+        WHERE UPPER(description) = UPPER(p_description);
         
         RETURN r_orderStatus;   
     END get_orderStatus_by_desc;
@@ -428,20 +428,20 @@ AS
 		p_newOrderStatus IN comp231_orders.orderStatus%TYPE
 	)
 	IS
-		v_orderStatusDesc comp231_orderstatus_dict.orderStatusDesc%TYPE;
-		CURSOR cur_orderStateDesc IS SELECT * FROM comp231_orderstatus_dict;
+		v_description comp231_orderstatus_map.description%TYPE;
+		CURSOR cur_statusDescription IS SELECT * FROM comp231_orderstatus_map;
         INVALID_ORDER_STATUS EXCEPTION;
         ORDER_ID_NOT_EXIST EXCEPTION;
 	BEGIN
 	
 		-- Get new order status description
-		FOR rec_orderStatusDesc in cur_orderStateDesc LOOP
-			IF rec_orderStatusDesc.orderStatus = p_newOrderStatus THEN
-				v_orderStatusDesc := rec_orderStatusDesc.orderStatusDesc;        
+		FOR rec_description in cur_statusDescription LOOP
+			IF rec_description.orderStatus = p_newOrderStatus THEN
+				v_description := rec_description.description;        
 			END IF;
 		END LOOP;
 		
-		IF v_orderStatusDesc IS NULL THEN
+		IF v_description IS NULL THEN
             RAISE INVALID_ORDER_STATUS;
 		END IF;
 		
@@ -458,7 +458,7 @@ AS
 		END IF;
 		
 		IF SQL%ROWCOUNT > 0 THEN
-			DBMS_OUTPUT.PUT_LINE('Order ID ' || p_orderID || ' latest status is ' || v_orderStatusDesc);
+			DBMS_OUTPUT.PUT_LINE('Order ID ' || p_orderID || ' latest status is ' || v_description);
 		ELSE
             RAISE ORDER_ID_NOT_EXIST;
 		END IF;
