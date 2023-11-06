@@ -36,7 +36,7 @@ public class ShowShoppingCartGUI {
         Label labelCustomerId = new Label("Customer ID:");
         Text textCustomerId = new Text(Integer.toString(customerID));
         Button buttonCheckOut = new Button("Check Out");
-        Button buttonBack = new Button("Back to Shop");
+        Button buttonBack = new Button("Back");
         Button buttonCancel = new Button("Cancel");
 
         
