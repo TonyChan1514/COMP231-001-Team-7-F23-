@@ -218,7 +218,7 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getDrugRecords() throws Exception {
-		preparedStatement = dbConnection.prepareStatement("SELECT isPrescription, drugName, retailPrice, stock FROM comp231_drugs");
+		preparedStatement = dbConnection.prepareStatement("SELECT isPrescription, drugName, retailPrice, stock, prescriptionLimit FROM comp231_drugs");
 		resultSet = preparedStatement.executeQuery();
 		resultSet.next();
 		return resultSet;
@@ -226,7 +226,7 @@ public class QueryHandler {
 	
 	public ResultSet getDrugRecordByID(int drugID) throws Exception {
 		// Get the record of player game ID selected
-		sqlStatement = "SELECT isPrescription, drugName, retailPrice, stock FROM comp231_drugs WHERE drugID = ?";
+		sqlStatement = "SELECT isPrescription, drugName, retailPrice, stock, prescriptionLimit FROM comp231_drugs WHERE drugID = ?";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		preparedStatement.setInt(1, drugID);
 		resultSet = preparedStatement.executeQuery();

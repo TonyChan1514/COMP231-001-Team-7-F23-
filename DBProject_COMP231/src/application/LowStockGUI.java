@@ -49,18 +49,28 @@ public class LowStockGUI {
 		drugNameColumn.setCellValueFactory(new PropertyValueFactory<>("drugName"));
 		drugNameColumn.setStyle("-fx-alignment: CENTER;");
 		drugNameColumn.setPrefWidth(300);
+		
+		TableColumn<DrugItem, String> drugPrescriptionColumn = new TableColumn<>("Prescription Needed");
+		drugPrescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("prescriptionID"));
+		drugPrescriptionColumn.setStyle("-fx-alignment: CENTER;");
+		drugPrescriptionColumn.setPrefWidth(150);
         
 		TableColumn<DrugItem, Double> drugPriceColumn = new TableColumn<>("Price");
 		drugPriceColumn.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
 		drugPriceColumn.setStyle("-fx-alignment: CENTER;");
-		drugPriceColumn.setPrefWidth(160);
+		drugPriceColumn.setPrefWidth(100);
         
 		TableColumn<DrugItem, String> drugStockColumn = new TableColumn<>("Available Stock");
 		drugStockColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 		drugStockColumn.setStyle("-fx-alignment: CENTER;");
-		drugStockColumn.setPrefWidth(220);
+		drugStockColumn.setPrefWidth(150);
 		
-		table.getColumns().addAll(drugNameColumn, drugPriceColumn, drugStockColumn);
+		TableColumn<DrugItem, String> drugLimitColumn = new TableColumn<>("Prescription Limit");
+		drugLimitColumn.setCellValueFactory(new PropertyValueFactory<>("prescriptionLimit"));
+		drugLimitColumn.setStyle("-fx-alignment: CENTER;");
+		drugLimitColumn.setPrefWidth(120);
+		
+		table.getColumns().addAll(drugNameColumn, drugPrescriptionColumn, drugPriceColumn, drugStockColumn, drugLimitColumn);
 		table.setRowFactory(tv -> new TableRow<DrugItem>() {
 			@Override
 			protected void updateItem(DrugItem drug, boolean empty) {
@@ -86,9 +96,10 @@ public class LowStockGUI {
 			while (results.next()) {
 				DrugItem drug = new DrugItem(
 					results.getString("drugName"),
-					results.getString("isPrescription"),
+					results.getBoolean("isPrescription") == true ? "Yes" : "No",
 					results.getDouble("retailPrice"),
-					results.getInt("stock")
+					results.getInt("stock"),
+					results.getInt("prescriptionLimit")
 				);
 				data.add(drug);
 			}

@@ -41,8 +41,11 @@ public class InsertUpdateGUI {
 	
 	// Drug ID column
 	Label[] drugLabels = {
-			new Label ("Need Prescription:"), new Label ("Drug Name:"), new Label ("Retail Price:"), new Label("Stock:")
-		};
+		new Label ("Need Prescription:"), 
+		new Label ("Drug Name:"), 
+		new Label ("Retail Price:"), 
+		new Label ("Stock:")
+	};
 	TextField[] drugFields;
 	ComboBox<String> isPrescriptionComboBox = new ComboBox<String>();
 	
