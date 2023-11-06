@@ -44,6 +44,8 @@ public class Main extends Application {
         Tab orderMgtTab = new Tab("Order Management", orderMgtGUI.getGUI());
         tabPane.getTabs().add(orderMgtTab);
         
+        Tab drugInventoryTab = new Tab("Drug Inventory", new LowStockGUI(queryHandler).getGUI());
+        tabPane.getTabs().add(drugInventoryTab);
         
         tabPane.setPrefWidth(1200);
         tabPane.setPrefHeight(600);

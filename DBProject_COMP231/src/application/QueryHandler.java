@@ -217,6 +217,13 @@ public class QueryHandler {
 		return resultSet;
 	}
 	
+	public ResultSet getDrugRecords() throws Exception {
+		preparedStatement = dbConnection.prepareStatement("SELECT isPrescription, drugName, retailPrice, stock FROM comp231_drugs");
+		resultSet = preparedStatement.executeQuery();
+		resultSet.next();
+		return resultSet;
+	}
+	
 	public ResultSet getDrugRecordByID(int drugID) throws Exception {
 		// Get the record of player game ID selected
 		sqlStatement = "SELECT isPrescription, drugName, retailPrice, stock FROM comp231_drugs WHERE drugID = ?";
