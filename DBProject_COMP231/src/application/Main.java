@@ -55,12 +55,6 @@ public class Main extends Application {
             if (shoppingCartTab.isSelected()) {
     			try {
     				customerCustomerInterface.refreshCustomerIDComboBox();
-    			//	AddShoppingCartGUI addShoppingCartGUI = customerCustomerInterface.getAddShoppingCartGUI();
-    			//	if (addShoppingCartGUI != null) {
-    			//		addShoppingCartGUI.refreshDrugIDComboBox();
-    			//		addShoppingCartGUI.refreshPrescriptionIDComboBox();
-    			//		System.out.println("I am NULL");
-    			//	}
     			} catch (Exception e) {
     				e.printStackTrace();
     			}
