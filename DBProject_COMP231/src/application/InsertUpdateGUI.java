@@ -473,7 +473,48 @@ public class InsertUpdateGUI {
 		}
 	}
 	
+	private void selectUpdatePrescriptionIDComboBox() throws Exception {
+		String option = updatePrescriptionIDComboBox.getValue();
+		if (option == INSERT_OPTION) {
+			for (int i = 0; i < prescriptionFields.length; i++) {
+				prescriptionFields[i].setText("");
+			}
+			prescriptionCustomerIDComboBox.getSelectionModel().selectFirst();
+			prescriptionDrugIDComboBox.getSelectionModel().selectFirst();
+			patientDOBPicker.setValue(null);
+			// Force set order count = 0 as initial
+			prescriptionFields[5].setText("0");
+			prescriptionFields[5].setDisable(true);
+		} else if (option != null) {
+			resultSet = queryHandler.getPrescriptionRecordByID(Integer.parseInt(option));
+			prescriptionCustomerIDComboBox.getSelectionModel().select(Integer.toString(resultSet.getInt(1)));
+			prescriptionDrugIDComboBox.getSelectionModel().select(Integer.toString(resultSet.getInt(2)));
+			prescriptionFields[2].setText(resultSet.getString(3));
+			patientDOBPicker.setValue(resultSet.getDate(4).toLocalDate());
+			prescriptionFields[4].setText(resultSet.getString(5));
+			prescriptionFields[5].setText(resultSet.getString(6));
+			prescriptionFields[6].setText(resultSet.getString(7));
+			prescriptionFields[7].setText(resultSet.getString(8));
+			prescriptionFields[8].setText(resultSet.getString(9));
+			prescriptionFields[5].setDisable(false);
+		}
+	}
 	
+	private void selectUpdateDrugIDComboBox() throws Exception {
+		String option = updateDrugIDComboBox.getValue();
+		if (option == INSERT_OPTION) {
+			isPrescriptionComboBox.getSelectionModel().selectFirst();
+			for (int i = 0; i < drugLabels.length; i++) {
+				drugFields[i].setText("");
+			}
+		} else if (option != null) {
+			resultSet = queryHandler.getDrugRecordByID(Integer.parseInt(option));
+			isPrescriptionComboBox.getSelectionModel().select((resultSet.getInt(1) == 1 ? "Yes" : "No"));
+			drugFields[1].setText(resultSet.getString(2));
+			drugFields[2].setText(resultSet.getString(3));
+			drugFields[3].setText(resultSet.getString(4));
+		}
+	}
 }
 
 //Implement UI components for prescription management
