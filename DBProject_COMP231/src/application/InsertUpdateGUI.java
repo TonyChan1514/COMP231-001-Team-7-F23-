@@ -519,3 +519,5 @@ public class InsertUpdateGUI {
 		}
 	}
 }
+
+//Implement UI components for prescription management
