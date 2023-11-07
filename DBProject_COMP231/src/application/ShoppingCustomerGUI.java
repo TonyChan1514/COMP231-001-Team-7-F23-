@@ -94,7 +94,7 @@ public class ShoppingCustomerGUI {
 
     private void selectCustomerIDComboBox() throws Exception {
         String selectedOption = customerIDComboBox.getValue();
-        if (selectedOption.equals(NOT_SELECTED_OPTION)) {
+        if (selectedOption != null && selectedOption.equals(NOT_SELECTED_OPTION)) {
             customerNameLabel.setText("");
         } else if (selectedOption != null) {
             ResultSet resultSet = queryHandler.getCustomerRecordByID(Integer.parseInt(selectedOption));
