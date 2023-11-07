@@ -79,7 +79,7 @@ public class Main extends Application {
         
         // Create a scene and place the tab pane
         Scene scene = new Scene(tabPane);
-		primaryStage.setTitle("COMP214 Advanced Database Project - Pharmacy Management System");
+		primaryStage.setTitle("COMP231 Team7 - Pharmacy Management System");
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
