@@ -266,7 +266,7 @@ public class QueryHandler {
 	}	
 	
 	public ResultSet getCartInformationByCartID(int cartID) throws Exception {
-		sqlStatement = "SELECT b.drugName, a.prescriptionID, a.unitPrice, a.quantity FROM comp231_cart_items a "
+		sqlStatement = "SELECT b.drugName, a.prescriptionID, a.unitPrice, a.quantity, b.prescriptionLimit FROM comp231_cart_items a "
 				+ "INNER JOIN comp231_drugs b ON a.drugID = b.drugID WHERE a.cartID = ? ORDER BY b.drugName";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		preparedStatement.setInt(1, cartID);

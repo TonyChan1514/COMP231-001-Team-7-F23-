@@ -24,8 +24,9 @@ import javafx.scene.control.ComboBox;
 
 public class AddShoppingCartGUI {
 	private final static String NOT_PRESCRIPTION_OPTION = "No";
+	private final static int LOW_STOCK_THRESHOLD = 100;
 	private ShoppingCustomerGUI customer;
-	private int customerID, cartID, prescriptionID, quantity, drugIDToAdd;
+	private int customerID, cartID, prescriptionID, quantity, drugIDToAdd, prescriptionLimit;
 	private double unitPrice;
 	private Tab shoppingCartTab;
 	private QueryHandler queryHandler;
@@ -237,7 +238,8 @@ public class AddShoppingCartGUI {
 			prescriptionIDString = resultSet.wasNull() ? "" : Integer.toString(prescriptionID);
 			unitPrice = resultSet.getDouble("unitPrice");
 			quantity = resultSet.getInt("quantity");
-			drugs.add(new DrugItem(drugName, prescriptionIDString, unitPrice, quantity));
+			prescriptionLimit = resultSet.getInt("prescriptionLimit");
+			drugs.add(new DrugItem(drugName, prescriptionIDString, unitPrice, quantity, prescriptionLimit));
 		}
 
 	    drugTable.setItems(drugs);
@@ -311,15 +313,39 @@ public class AddShoppingCartGUI {
 		} else {
 			prescriptionID = Integer.parseInt(prescriptionIDComboBox.getValue());
 		}
-		quantity = Integer.parseInt(quantityTextField.getText());
-		isAllowable = queryHandler.checkIsAllowable(drugIDToAdd, prescriptionID, quantity);
+		
+		int prescriptAmount = Integer.parseInt(quantityTextField.getText());
+		isAllowable = queryHandler.checkIsAllowable(drugIDToAdd, prescriptionID, prescriptAmount);
+		ResultSet drugResultSet = queryHandler.getDrugRecordByID(drugIDToAdd);
+		DrugItem drugInfo = new DrugItem(
+			drugResultSet.getString("drugName"),
+			drugResultSet.getBoolean("isPrescription") == true ? "Yes" : "No",
+			drugResultSet.getDouble("retailPrice"),
+			drugResultSet.getInt("stock"),
+			drugResultSet.getInt("prescriptionLimit")
+		);
+		int drugStock = drugInfo.getQuantity();
+		int remainingStock = drugStock - prescriptAmount;
 		
 		if (!isAllowable) {
 			JOptionPane.showMessageDialog(null, "Not authorized to buy prescripted drug.");
 			return;
 		}
 		
-		queryHandler.addToShoppingCart(drugIDToAdd, prescriptionID, quantity);
+		if (prescriptAmount > drugInfo.getPrescriptionLimit()) {
+			JOptionPane.showMessageDialog(null, "The prescribed quantity is higher than the maximum allowed limit.");
+			return;
+		}
+		if (remainingStock < 0) {
+			JOptionPane.showMessageDialog(null, "There is not enough stock for the drug.");
+			return;
+		}
+		
+		queryHandler.addToShoppingCart(drugIDToAdd, prescriptionID, prescriptAmount);
+		if (remainingStock < LOW_STOCK_THRESHOLD) {
+			JOptionPane.showMessageDialog(null, "This drug would reach a low stock level after checkout. A notification will be sent to inventory manager after checkout.");
+		}
+		
 		refreshDrugItemTable();
 	}
 	
