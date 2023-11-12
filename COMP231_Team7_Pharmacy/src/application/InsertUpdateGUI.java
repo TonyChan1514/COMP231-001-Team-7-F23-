@@ -270,7 +270,7 @@ public class InsertUpdateGUI {
 			JOptionPane.showMessageDialog(null, "Customer " + customerFields[0].getText() + " (CustomerID: " + queryHandler.getLastCustomerID() + ") inserted Successfully.");;
 		} else {
 			if (queryHandler.updateCustomerByID(Integer.parseInt(updateCustomerIDComboBox.getValue()), customerFields)) {
-				JOptionPane.showMessageDialog(null, "Customer ID " + updateCustomerIDComboBox.getValue() + " updated Successfully.");;
+				JOptionPane.showMessageDialog(null, "Customer ID " + updateCustomerIDComboBox.getValue() + " updated Successfully.");
 			}
 		}
 			
