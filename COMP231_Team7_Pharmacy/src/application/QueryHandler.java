@@ -19,6 +19,14 @@ public class QueryHandler {
 	// To handle database queries and return the necessary result for processing
 	public QueryHandler(Connection dbConnection) throws Exception {
 		this.dbConnection = dbConnection;
+		writeNetworkLog();
+	}
+	
+	private void writeNetworkLog() throws Exception {
+		sqlStatement = "INSERT INTO comp231_network_log (logSeqID, access_time, access_ip_address) VALUES (seq_logSeqID.NEXTVAL, DEFAULT, ?)";
+		preparedStatement = dbConnection.prepareStatement(sqlStatement);
+		preparedStatement.setString(1, PublicIPAddress.getPublicIPAddress());
+		preparedStatement.executeQuery();
 	}
 	
 	public void insertNewCustomer(TextField[] customerFields) throws Exception {
