@@ -6,12 +6,15 @@ DROP TABLE comp231_orders;
 DROP TABLE comp231_prescriptions;
 DROP TABLE comp231_drugs;
 DROP TABLE comp231_customers;
+DROP TABLE comp231_orderstatus_map;
+DROP TABLE comp231_network_log;
 
 DROP SEQUENCE seq_customerID;
 DROP SEQUENCE seq_drugID;
 DROP SEQUENCE seq_prescriptionID;
 DROP SEQUENCE seq_orderID;
 DROP SEQUENCE seq_cartID;
+DROP SEQUENCE seq_logSeqID;
 
 -- CREATE APPLICATION TABLES
 CREATE TABLE comp231_customers (
@@ -28,8 +31,10 @@ CREATE TABLE comp231_drugs (
     drugID NUMBER(8) NOT NULL,
     isPrescription NUMBER(1) NOT NULL,
     drugName VARCHAR2(60) NOT NULL,
+	supplyCost NUMBER(8,2) NOT NULL,
     retailPrice NUMBER(8,2) NOT NULL,
     stock NUMBER(5) NOT NULL,
+	prescriptionLimit NUMBER(5) NOT NULL,
     CONSTRAINT drugs_drugID_PK PRIMARY KEY (drugID),
     CONSTRAINT drugs_isPrescription_CK CHECK (isPrescription IN (0, 1))
 );

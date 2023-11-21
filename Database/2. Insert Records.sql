@@ -7,18 +7,18 @@ INSERT INTO comp231_customers (customerID, firstName, lastName, address, phone, 
 INSERT INTO comp231_customers (customerID, firstName, lastName, address, phone, email)
     VALUES(seq_customerID.NEXTVAL, 'Sammi', 'Anson', '857 McCowan Road, Scarborough, ON', '403-7541-6387', 'sammi.x.smith@gmail.com');
 
-INSERT INTO comp231_drugs (drugID, isPrescription, drugName, retailPrice, stock)
-    VALUES(seq_drugID.NEXTVAL, 0, 'Panadol', 12.00, 400);
-INSERT INTO comp231_drugs (drugID, isPrescription, drugName, retailPrice, stock)
-    VALUES(seq_drugID.NEXTVAL, 1, 'Sertraline', 7.00, 100);
-INSERT INTO comp231_drugs (drugID, isPrescription, drugName, retailPrice, stock)
-    VALUES(seq_drugID.NEXTVAL, 0, 'Tylenol', 18.00, 500);
-INSERT INTO comp231_drugs (drugID, isPrescription, drugName, retailPrice, stock)
-    VALUES(seq_drugID.NEXTVAL, 0, 'Aspirin', 14.00, 450);
-INSERT INTO comp231_drugs (drugID, isPrescription, drugName, retailPrice, stock)
-    VALUES(seq_drugID.NEXTVAL, 1, 'Seroquel', 25.00, 250);
-INSERT INTO comp231_drugs (drugID, isPrescription, drugName, retailPrice, stock)
-    VALUES(seq_drugID.NEXTVAL, 0, 'Vitamin C Tablet', 31.00, 120);
+INSERT INTO comp231_drugs (drugID, isPrescription, drugName, supplyCost, retailPrice, stock, prescriptionLimit)
+    VALUES(seq_drugID.NEXTVAL, 0, 'Panadol', 4.00, 12.00, 400, 10);
+INSERT INTO comp231_drugs (drugID, isPrescription, drugName, supplyCost, retailPrice, stock, prescriptionLimit)
+    VALUES(seq_drugID.NEXTVAL, 1, 'Sertraline', 2.00, 7.00, 100, 20);
+INSERT INTO comp231_drugs (drugID, isPrescription, drugName, supplyCost, retailPrice, stock, prescriptionLimit)
+    VALUES(seq_drugID.NEXTVAL, 0, 'Tylenol', 5.00, 18.00, 500, 30);
+INSERT INTO comp231_drugs (drugID, isPrescription, drugName, supplyCost, retailPrice, stock, prescriptionLimit)
+    VALUES(seq_drugID.NEXTVAL, 0, 'Aspirin', 4.50, 14.00, 450, 40);
+INSERT INTO comp231_drugs (drugID, isPrescription, drugName, supplyCost, retailPrice, stock, prescriptionLimit)
+    VALUES(seq_drugID.NEXTVAL, 1, 'Seroquel', 8.00, 25.00, 250, 50);
+INSERT INTO comp231_drugs (drugID, isPrescription, drugName, supplyCost, retailPrice, stock, prescriptionLimit)
+    VALUES(seq_drugID.NEXTVAL, 0, 'Vitamin C Tablet', 7.00, 31.00, 120, 20);
 
 INSERT INTO comp231_prescriptions (prescriptionID, customerID, drugID, patientName, patientDOB, refills, orderCount, doctorName, doctorAddress, doctorPhone)
 	VALUES (seq_prescriptionID.NEXTVAL, 1, 2, 'Peter Wong', TO_DATE('1993-04-01', 'YYYY-MM-DD'), 4, 3, 'Dr. Lee', '6421 XA Rd, Scar, ON', '647-342-1312');
