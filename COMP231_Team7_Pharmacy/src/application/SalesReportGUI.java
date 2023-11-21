@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 
@@ -50,35 +52,61 @@ public class SalesReportGUI {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         
-        // put combo box in GUI.
-        this.placeMonthComboBox();
+        this.fetchSalesFigure();
         
-        // fetch sales report information and display them in GUI.
-        this.showSalesFigure();
+        this.placeGUIElements();
+        
+        // put combo box in GUI.
+        this.placeSalesReportComboBox();
+        this.placeAccountingReportComboBox();
 	}
 	
 	public GridPane getGUI() {
 		return this.gridPane;
 	}
 	
-	private void placeMonthComboBox() {
-		VBox vbox = new VBox(5);
-		vbox.setPadding(new Insets(10));
+	private void placeGUIElements() {
+		Label title = new Label("Report Generation Page");
+		this.gridPane.add(title, 0, 0);
+	}
+	
+	private void placeSalesReportComboBox() {
+		HBox hbox = new HBox(20);
+		hbox.setPadding(new Insets(10));
 		
-		Label label = new Label("Starting Month");
-		vbox.getChildren().add(label);
-		vbox.getChildren().add(this.startingMonthBox);
+		Label label = new Label("Sales Report");
+		label.setPrefWidth(200);
+		hbox.getChildren().add(label);
+		hbox.getChildren().add(this.startingMonthBox);
+		hbox.getChildren().add(this.endingMonthBox);
 		
-		this.gridPane.add(vbox, 0, 0);
+		Button generateButton = new Button("Generate Report");
+		generateButton.setOnAction(e -> { this.showSalesFigure(); });
+		hbox.getChildren().add(generateButton);
 		
-		VBox vbox2 = new VBox(5);
-		vbox2.setPadding(new Insets(10));
+		this.refreshMonthSelector();
+		this.gridPane.add(hbox, 0, 1);
+		this.startingMonthBox.setOnAction(e -> {
+			this.refreshMonthSelector();
+		});
+	}
+	
+	private void placeAccountingReportComboBox() {
+		HBox hbox = new HBox(20);
+		hbox.setPadding(new Insets(10));
 		
-		Label label2 = new Label("Ending Month");
-		vbox2.getChildren().add(label2);
-		vbox2.getChildren().add(this.endingMonthBox);
+		Label label = new Label("Sales Report");
+		label.setPrefWidth(200);
+		hbox.getChildren().add(label);
+		hbox.getChildren().add(this.startingMonthBox);
+		hbox.getChildren().add(this.endingMonthBox);
 		
-		this.gridPane.add(vbox2, 1, 0);
+		Button generateButton = new Button("Generate Report");
+		generateButton.setOnAction(e -> { this.showSalesFigure(); });
+		hbox.getChildren().add(generateButton);
+		
+		this.refreshMonthSelector();
+		this.gridPane.add(hbox, 0, 1);
 		this.startingMonthBox.setOnAction(e -> {
 			this.refreshMonthSelector();
 		});
@@ -86,24 +114,23 @@ public class SalesReportGUI {
 	
 	private void refreshMonthSelector() {
 		ObservableList<String> startingMonthList = FXCollections.observableArrayList();
-		startingMonthList.add("--------");
 		startingMonthList.addAll(this.availableMonths);
 		this.startingMonthBox.setItems(startingMonthList);
+		this.startingMonthBox.setPromptText("Start Date");
+		this.endingMonthBox.setPromptText("End Date");
 		
 		int startingIndex = this.startingMonthBox.getSelectionModel().getSelectedIndex();
 		
 		// No boxes are selected.
 		if (startingIndex <= 0) {
 			this.endingMonthBox.setItems(startingMonthList);
-			this.startingMonthBox.getSelectionModel().selectFirst();
-			this.endingMonthBox.getSelectionModel().selectFirst();
 		} else {
 			ObservableList<String> endingMonthList = FXCollections.observableArrayList(startingMonthList.subList(startingIndex, startingMonthList.size()));
 			this.endingMonthBox.setItems(endingMonthList);
 		}
 	}
 	
-	private void showSalesFigure() {
+	private void fetchSalesFigure() {
 		ResultSet results = null;
 		try {
 			results = this.queryHandler.getMonthlySalesFigure();
@@ -125,13 +152,12 @@ public class SalesReportGUI {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		this.generateTable(this.salesData);
-		this.refreshMonthSelector();
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void generateTable(ObservableList<MonthlySale> data) {
+	private void showSalesFigure() {
+		ObservableList<MonthlySale> salesData = this.salesData;
+		
 		TableView<MonthlySale> table = new TableView<MonthlySale>();
 		table.setPrefWidth(900);
 		table.setPrefHeight(340);
@@ -152,8 +178,9 @@ public class SalesReportGUI {
 		countColumn.setPrefWidth(250);
 		
 		table.getColumns().addAll(monthColumn, amountColumn, countColumn);
-		table.setItems(data);
-		gridPane.add(table, 0, 1);
-		GridPane.setColumnSpan(table, 2);
+		table.setItems(salesData);
+		gridPane.add(table, 0, 2);
+		
+		this.refreshMonthSelector();
 	}
 }
