@@ -50,7 +50,7 @@ public class Main extends Application {
         Tab networkLogTab = new Tab("Network Log", new NetworkLogGUI(queryHandler).getGUI());
         tabPane.getTabs().add(networkLogTab);
 
-	Tab salesReportTab = new Tab("Sales Report", new SalesReportGUI(queryHandler).getGUI());
+        Tab salesReportTab = new Tab("Sales Report", new SalesReportGUI(queryHandler).getGUI());
         tabPane.getTabs().add(salesReportTab);
         
         tabPane.setPrefWidth(1200);
