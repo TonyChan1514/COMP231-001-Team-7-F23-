@@ -43,8 +43,10 @@ public class InsertUpdateGUI {
 	Label[] drugLabels = {
 		new Label ("Need Prescription:"), 
 		new Label ("Drug Name:"), 
+		new Label ("Supply Cost:"), 
 		new Label ("Retail Price:"), 
-		new Label ("Stock:")
+		new Label ("Stock:"),
+		new Label ("Prescription Limit:")
 	};
 	TextField[] drugFields;
 	ComboBox<String> isPrescriptionComboBox = new ComboBox<String>();
@@ -326,10 +328,16 @@ public class InsertUpdateGUI {
 			JOptionPane.showMessageDialog(null, "Drug name is a mandatory field");
 			return;
 		} else if (drugFields[2].getText().trim().length() == 0) {
-			JOptionPane.showMessageDialog(null, "Retail price is a mandatory field.");
+			JOptionPane.showMessageDialog(null, "Supply cost is a mandatory field.");
 			return;
 		} else if (drugFields[3].getText().trim().length() == 0) {
+			JOptionPane.showMessageDialog(null, "Retail price is a mandatory field.");
+			return;
+		} else if (drugFields[4].getText().trim().length() == 0) {
 			JOptionPane.showMessageDialog(null, "Stock is a mandatory field.");
+			return;
+		} else if (drugFields[5].getText().trim().length() == 0) {
+			JOptionPane.showMessageDialog(null, "Prescription limit a mandatory field.");
 			return;
 		}
 		

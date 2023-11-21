@@ -53,12 +53,14 @@ public class QueryHandler {
 	}
 	
 	public void insertNewDrug(int isPrescription, TextField[] drugFields) throws Exception {
-        String procedureCall = "{call new_record_handler_pkg.add_drug(?, ?, ?, ?)}";
+        String procedureCall = "{call new_record_handler_pkg.add_drug(?, ?, ?, ?, ?, ?)}";
         CallableStatement callableStatement = dbConnection.prepareCall(procedureCall);
         callableStatement.setInt(1, isPrescription);
         callableStatement.setString(2, drugFields[1].getText());
         callableStatement.setDouble(3, Double.parseDouble(drugFields[2].getText()));
-        callableStatement.setInt(4, Integer.parseInt(drugFields[3].getText()));
+        callableStatement.setDouble(4, Double.parseDouble(drugFields[3].getText()));
+        callableStatement.setInt(5, Integer.parseInt(drugFields[4].getText()));
+        callableStatement.setInt(6, Integer.parseInt(drugFields[5].getText()));
         callableStatement.execute();
 	}
 	
@@ -215,7 +217,6 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getPrescriptionRecordByID(int prescriptionID) throws Exception {
-		// Get the record of player ID selected
 		sqlStatement = "SELECT customerID, drugID, patientName, patientDOB, refills, orderCount, doctorName, doctorAddress, doctorPhone "
 				+ "FROM comp231_prescriptions WHERE prescriptionID = ?";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
@@ -240,7 +241,6 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getDrugRecordByID(int drugID) throws Exception {
-		// Get the record of player game ID selected
 		sqlStatement = "SELECT isPrescription, drugName, retailPrice, stock, prescriptionLimit FROM comp231_drugs WHERE drugID = ?";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		preparedStatement.setInt(1, drugID);

@@ -15,8 +15,10 @@ AS
     PROCEDURE add_drug(
         p_isPrescription IN comp231_drugs.isPrescription%TYPE,
         p_drugName IN comp231_drugs.drugName%TYPE,
+		p_supplyCost IN comp231_drugs.supplyCost%TYPE,
         p_retailPrice IN comp231_drugs.retailPrice%TYPE,
-        p_stock IN comp231_drugs.stock%TYPE
+        p_stock IN comp231_drugs.stock%TYPE,
+		p_prescriptionLimit IN comp231_drugs.prescriptionLimit%TYPE
     );
     
     PROCEDURE add_prescription(
@@ -60,13 +62,15 @@ AS
     PROCEDURE add_drug(
         p_isPrescription IN comp231_drugs.isPrescription%TYPE,
         p_drugName IN comp231_drugs.drugName%TYPE,
+		p_supplyCost IN comp231_drugs.supplyCost%TYPE,
         p_retailPrice IN comp231_drugs.retailPrice%TYPE,
-        p_stock IN comp231_drugs.stock%TYPE
+        p_stock IN comp231_drugs.stock%TYPE,
+		p_prescriptionLimit IN comp231_drugs.prescriptionLimit%TYPE
     )
     IS
     BEGIN
-        INSERT INTO comp231_drugs (drugID, isPrescription, drugName, retailPrice, stock)
-        VALUES (seq_drugID.NEXTVAL, p_isPrescription, p_drugName, p_retailPrice, p_stock)
+        INSERT INTO comp231_drugs (drugID, isPrescription, drugName, supplyCost, retailPrice, stock, prescriptionLimit)
+        VALUES (seq_drugID.NEXTVAL, p_isPrescription, p_drugName, p_supplyCost, p_retailPrice, p_stock, p_prescriptionLimit)
         RETURNING drugID INTO g_new_drugID;
     
         COMMIT;
