@@ -102,18 +102,6 @@ public class AddShoppingCartGUI {
 			}
 		});
 		
-	    /*buttonAddToCart.setOnAction(event -> {
-			JOptionPane.showMessageDialog(null, "Added to Cart");
-			// Get the items in the table
-		    ObservableList<DrugItem> items = drugTable.getItems();
-		    // Iterate through the items and clear the quantity values
-		    //for (DrugItem item : items) {
-		    //    item.clearQuantity();
-		    //}
-		    // Refresh the TableView to reflect the changes
-		    drugTable.refresh();
-		});*/
-		
 	    // Create a TableView to display the drug list
 	    drugTable = new TableView<>();
 	    drugTable.setPrefWidth(600);
