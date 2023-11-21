@@ -1,13 +1,14 @@
 package application;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class NetworkLog {
 	private int logSeqID;
-    private Date accessTime;
+    private Timestamp accessTime;
     private String accessIPAddress;
 
-    public NetworkLog(int logSeqID, Date accessTime, String accessIPAddress) {
+    public NetworkLog(int logSeqID, Timestamp accessTime, String accessIPAddress) {
         this.logSeqID = logSeqID;
         this.accessTime = accessTime;
         this.accessIPAddress = accessIPAddress;
@@ -17,11 +18,17 @@ public class NetworkLog {
         return logSeqID;
     }
     
-    public Date getAccessTime() {
+    public Timestamp getAccessTime() {
     	return accessTime;
     }
     
     public String getAccessIPAddress() {
         return accessIPAddress;
     }
+
+    public String getFormattedAccessTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(accessTime);
+    }
+
 }

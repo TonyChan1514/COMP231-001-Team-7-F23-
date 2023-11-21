@@ -51,6 +51,7 @@ public class NetworkLogGUI {
 		
 		TableColumn<NetworkLog, Date> accessTimeColumn = new TableColumn<>("Access Time");
 		accessTimeColumn.setCellValueFactory(new PropertyValueFactory<>("accessTime"));
+		//accessTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getFormattedAccessTime());
 		accessTimeColumn.setStyle("-fx-alignment: CENTER;");
 		accessTimeColumn.setPrefWidth(200);
         
@@ -81,7 +82,7 @@ public class NetworkLogGUI {
 			while (results.next()) {
 				NetworkLog networkLog = new NetworkLog(
 					results.getInt("logSeqID"),
-					results.getDate("access_time"),
+					results.getTimestamp("access_time"),
 					results.getString("access_ip_address")
 				);
 				data.add(networkLog);
