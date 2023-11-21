@@ -47,6 +47,9 @@ public class Main extends Application {
         Tab drugInventoryTab = new Tab("Drug Inventory", new LowStockGUI(queryHandler).getGUI());
         tabPane.getTabs().add(drugInventoryTab);
         
+        Tab networkLogTab = new Tab("Network Log", new NetworkLogGUI(queryHandler).getGUI());
+        tabPane.getTabs().add(networkLogTab);
+        
         tabPane.setPrefWidth(1200);
         tabPane.setPrefHeight(600);
         

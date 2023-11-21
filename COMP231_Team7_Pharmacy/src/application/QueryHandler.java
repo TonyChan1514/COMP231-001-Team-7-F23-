@@ -232,6 +232,13 @@ public class QueryHandler {
 		return resultSet;
 	}
 	
+	public ResultSet getNetworkLogRecords() throws Exception {
+		preparedStatement = dbConnection.prepareStatement("SELECT logSeqID, access_time, access_ip_address FROM comp231_network_log ORDER BY logSeqID DESC");
+		resultSet = preparedStatement.executeQuery();
+		resultSet.next();
+		return resultSet;
+	}
+	
 	public ResultSet getDrugRecordByID(int drugID) throws Exception {
 		// Get the record of player game ID selected
 		sqlStatement = "SELECT isPrescription, drugName, retailPrice, stock, prescriptionLimit FROM comp231_drugs WHERE drugID = ?";
