@@ -287,7 +287,14 @@ public class QueryHandler {
 		preparedStatement.setInt(1, cartID);
 		resultSet = preparedStatement.executeQuery();
 		return resultSet;
-	}	
+	}
+	
+	public ResultSet getMonthlySalesFigure() throws Exception {
+		sqlStatement = "SELECT TO_CHAR(orderdate, 'YYYY-MM') AS month, SUM(carttotal) AS sales_amount, count(*) AS sales_count FROM COMP231_ORDERS NATURAL JOIN COMP231_SHOPPING_CARTS GROUP BY TO_CHAR(orderdate, 'YYYY-MM') ORDER BY month";
+		preparedStatement = dbConnection.prepareStatement(sqlStatement);
+		resultSet = preparedStatement.executeQuery();
+		return resultSet;
+	}
 	
 	public boolean updateCustomerByID(int customerID, TextField[] customerFields) throws Exception {
 		// Update customer record by ID
