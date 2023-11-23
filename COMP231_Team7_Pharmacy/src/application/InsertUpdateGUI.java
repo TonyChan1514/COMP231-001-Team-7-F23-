@@ -524,6 +524,8 @@ public class InsertUpdateGUI {
 			drugFields[1].setText(resultSet.getString(2));
 			drugFields[2].setText(resultSet.getString(3));
 			drugFields[3].setText(resultSet.getString(4));
+			drugFields[4].setText(resultSet.getString(5));
+			drugFields[5].setText(resultSet.getString(6));
 		}
 	}
 }

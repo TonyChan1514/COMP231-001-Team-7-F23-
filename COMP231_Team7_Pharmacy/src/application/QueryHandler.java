@@ -241,7 +241,7 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getDrugRecordByID(int drugID) throws Exception {
-		sqlStatement = "SELECT isPrescription, drugName, retailPrice, stock, prescriptionLimit FROM comp231_drugs WHERE drugID = ?";
+		sqlStatement = "SELECT isPrescription, drugName, supplyCost, retailPrice, stock, prescriptionLimit FROM comp231_drugs WHERE drugID = ?";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		preparedStatement.setInt(1, drugID);
 		resultSet = preparedStatement.executeQuery();
@@ -329,13 +329,15 @@ public class QueryHandler {
 	
 	public boolean updateDrugByID(int drugID, int isPrescription, TextField[] drugFields) throws Exception {
 		// Update drug record by ID
-		sqlStatement = "UPDATE comp231_drugs SET isPrescription = ?, drugName = ?, retailPrice = ?, stock = ? WHERE drugID = ?";
+		sqlStatement = "UPDATE comp231_drugs SET isPrescription = ?, drugName = ?, supplyCost = ?, retailPrice = ?, stock = ?, prescriptionLimit = ? WHERE drugID = ?";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		preparedStatement.setInt(1, isPrescription);
 		preparedStatement.setString(2, drugFields[1].getText());
 		preparedStatement.setDouble(3, Double.parseDouble(drugFields[2].getText()));
-		preparedStatement.setInt(4, Integer.parseInt(drugFields[3].getText()));
-		preparedStatement.setInt(5, drugID);
+		preparedStatement.setDouble(4, Double.parseDouble(drugFields[3].getText()));
+		preparedStatement.setInt(5, Integer.parseInt(drugFields[4].getText()));
+		preparedStatement.setInt(6, Integer.parseInt(drugFields[5].getText()));
+		preparedStatement.setInt(7, drugID);
 		return preparedStatement.executeUpdate() > 0;
 	}
 	
