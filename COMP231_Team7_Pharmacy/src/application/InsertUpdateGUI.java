@@ -10,6 +10,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+//Implement UI components for prescription management
 public class InsertUpdateGUI {
 	
 	private final static String INSERT_OPTION = "Insert New"; 
@@ -529,5 +530,3 @@ public class InsertUpdateGUI {
 		}
 	}
 }
-
-//Implement UI components for prescription management

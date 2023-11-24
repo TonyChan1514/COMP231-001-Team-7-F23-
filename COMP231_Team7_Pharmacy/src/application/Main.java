@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 
 
 public class Main extends Application {
-	//private static final String hostname = "oracle1.centennialcollege.ca";
 	private static final String hostname = "70.50.202.189";
 	private static final int port = 1521;
 	private static final String sid = "xe";
@@ -21,7 +20,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		// Connect to the MySQL database
+		// Connect to the Oracle database
 		Class.forName("oracle.jdbc.OracleDriver");
 		dbConnection = DriverManager.getConnection("jdbc:oracle:thin:@" + hostname + ":" + port + ":" + sid, dbUserName, dbPassword);
 		queryHandler = new QueryHandler(dbConnection); 
@@ -69,7 +68,6 @@ public class Main extends Application {
         orderMgtTab.setOnSelectionChanged(event -> {
             if (orderMgtTab.isSelected()) {
     			try {
-    				//orderMgtGUI.refreshCustomerIDComboBox();
     				orderMgtGUI.refreshOrderIDComboBox();
     			} catch (Exception e) {
     				e.printStackTrace();
