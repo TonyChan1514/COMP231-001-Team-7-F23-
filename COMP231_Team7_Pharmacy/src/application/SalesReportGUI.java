@@ -27,16 +27,22 @@ public class SalesReportGUI {
 		private String month;
 		private double salesAmount;
 		private int salesCount;
+		private double supplyCost;
+		private double revenue;
 		
-		public MonthlySale(String month, double salesAmount, int salesCount) {
+		public MonthlySale(String month, double salesAmount, int salesCount, double supplyCost, double revenue) {
 			this.month = month;
 			this.salesAmount = salesAmount;
 			this.salesCount = salesCount;
+			this.supplyCost = supplyCost;
+			this.revenue = revenue;
 		}
 		
 		public String getMonth() { return this.month; }
 		public double getSalesAmount() { return this.salesAmount; }
 		public int getSalesCount() { return this.salesCount; }
+		public double getSupplyCost() { return this.supplyCost; }
+		public double getRevenue() { return this.revenue; }
 	}
 	
 	private GridPane gridPane;
@@ -59,7 +65,6 @@ public class SalesReportGUI {
         
         // put combo box in GUI.
         this.placeSalesReportComboBox();
-        //this.placeAccountingReportComboBox();
 	}
 	
 	public GridPane getGUI() {
@@ -67,7 +72,7 @@ public class SalesReportGUI {
 	}
 	
 	private void placeGUIElements() {
-		Label title = new Label("Report Generation Page");
+		Label title = new Label("Sales & Accounting Report Generation Page");
 		this.gridPane.add(title, 0, 0);
 	}
 	
@@ -93,29 +98,6 @@ public class SalesReportGUI {
 			this.refreshMonthSelector();
 		});
 	}
-	
-	private void placeAccountingReportComboBox() {
-		HBox hbox = new HBox(20);
-		hbox.setPadding(new Insets(10));
-		
-		Label label = new Label("Sales Report");
-		label.setPrefWidth(200);
-		hbox.getChildren().add(label);
-		hbox.getChildren().add(this.startingMonthBox);
-		hbox.getChildren().add(this.endingMonthBox);
-		
-		Button generateButton = new Button("Generate Report");
-		generateButton.setOnAction(e -> { this.showSalesFigure(); });
-		hbox.getChildren().add(generateButton);
-		
-		this.refreshMonthSelector();
-		this.gridPane.add(hbox, 0, 1);
-		this.startingMonthBox.setOnAction(e -> {
-			this.refreshMonthSelector();
-		});
-	}
-	
-	private boolean refreshing = false;
 	
 	private void refreshMonthSelector() {
 		
@@ -159,7 +141,9 @@ public class SalesReportGUI {
 				this.salesData.add(new MonthlySale(
 					month,
 					results.getDouble("sales_amount"),
-					results.getInt("sales_count")
+					results.getInt("sales_count"),
+					results.getDouble("supply_cost"),
+					results.getDouble("revenue")
 				));
 				this.availableMonths.add(month);
 			}
@@ -194,19 +178,29 @@ public class SalesReportGUI {
 		TableColumn<MonthlySale, String> monthColumn = new TableColumn<>("Month");
 		monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
 		monthColumn.setStyle("-fx-alignment: CENTER;");
-		monthColumn.setPrefWidth(250);
+		monthColumn.setPrefWidth(150);
+		
+		TableColumn<MonthlySale, Double> countColumn = new TableColumn<>("Sales Count");
+		countColumn.setCellValueFactory(new PropertyValueFactory<>("salesCount"));
+		countColumn.setStyle("-fx-alignment: CENTER;");
+		countColumn.setPrefWidth(120);
 		
 		TableColumn<MonthlySale, String> amountColumn = new TableColumn<>("Sales Amount");
 		amountColumn.setCellValueFactory(new PropertyValueFactory<>("salesAmount"));
 		amountColumn.setStyle("-fx-alignment: CENTER;");
-		amountColumn.setPrefWidth(250);
-        
-		TableColumn<MonthlySale, Double> countColumn = new TableColumn<>("Sales Count");
-		countColumn.setCellValueFactory(new PropertyValueFactory<>("salesCount"));
-		countColumn.setStyle("-fx-alignment: CENTER;");
-		countColumn.setPrefWidth(250);
+		amountColumn.setPrefWidth(200);
 		
-		table.getColumns().addAll(monthColumn, amountColumn, countColumn);
+		TableColumn<MonthlySale, String> costColumn = new TableColumn<>("Drug Supply Cost");
+		costColumn.setCellValueFactory(new PropertyValueFactory<>("supplyCost"));
+		costColumn.setStyle("-fx-alignment: CENTER;");
+		costColumn.setPrefWidth(200);
+		
+		TableColumn<MonthlySale, String> revenueColumn = new TableColumn<>("Revenue");
+		revenueColumn.setCellValueFactory(new PropertyValueFactory<>("revenue"));
+		revenueColumn.setStyle("-fx-alignment: CENTER;");
+		revenueColumn.setPrefWidth(200);
+		
+		table.getColumns().addAll(monthColumn, countColumn, amountColumn, costColumn, revenueColumn);
 		table.setItems(filteredData);
 		gridPane.add(table, 0, 2);
 		

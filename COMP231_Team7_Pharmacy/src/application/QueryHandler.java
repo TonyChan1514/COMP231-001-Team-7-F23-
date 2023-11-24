@@ -290,7 +290,7 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getMonthlySalesFigure() throws Exception {
-		sqlStatement = "SELECT TO_CHAR(orderdate, 'YYYY-MM') AS month, SUM(carttotal) AS sales_amount, count(*) AS sales_count FROM COMP231_ORDERS NATURAL JOIN COMP231_SHOPPING_CARTS GROUP BY TO_CHAR(orderdate, 'YYYY-MM') ORDER BY month";
+		sqlStatement = "SELECT TO_CHAR(orderdate, 'YYYY-MM') AS month, COUNT(*) AS sales_count, SUM(carttotal) AS sales_amount, SUM(supplyCost) as supply_cost, SUM(carttotal - supplyCost) as revenue FROM comp231_orders NATURAL JOIN comp231_shopping_carts NATURAL JOIN comp231_cart_items NATURAL JOIN comp231_drugs GROUP BY TO_CHAR(orderdate, 'YYYY-MM') ORDER BY month";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
 		resultSet = preparedStatement.executeQuery();
 		return resultSet;
