@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -53,12 +55,11 @@ public class SalesReportGUI {
         gridPane.setVgap(10);
         
         this.fetchSalesFigure();
-        
         this.placeGUIElements();
         
         // put combo box in GUI.
         this.placeSalesReportComboBox();
-        this.placeAccountingReportComboBox();
+        //this.placeAccountingReportComboBox();
 	}
 	
 	public GridPane getGUI() {
@@ -81,7 +82,9 @@ public class SalesReportGUI {
 		hbox.getChildren().add(this.endingMonthBox);
 		
 		Button generateButton = new Button("Generate Report");
-		generateButton.setOnAction(e -> { this.showSalesFigure(); });
+		generateButton.setOnAction(e -> { 
+			this.showSalesFigure(); 
+		});
 		hbox.getChildren().add(generateButton);
 		
 		this.refreshMonthSelector();
@@ -112,7 +115,13 @@ public class SalesReportGUI {
 		});
 	}
 	
+	private boolean refreshing = false;
+	
 	private void refreshMonthSelector() {
+		
+		// Temporary disable startingMonthBox setOnAction inside the method to prevent recursive call
+		this.startingMonthBox.setOnAction(null);
+		
 		ObservableList<String> startingMonthList = FXCollections.observableArrayList();
 		startingMonthList.addAll(this.availableMonths);
 		this.startingMonthBox.setItems(startingMonthList);
@@ -128,6 +137,11 @@ public class SalesReportGUI {
 			ObservableList<String> endingMonthList = FXCollections.observableArrayList(startingMonthList.subList(startingIndex, startingMonthList.size()));
 			this.endingMonthBox.setItems(endingMonthList);
 		}
+		
+		// Resume the startingMonthBox setOnAction
+		this.startingMonthBox.setOnAction(e -> {
+	        this.refreshMonthSelector();
+	    });
 	}
 	
 	private void fetchSalesFigure() {
@@ -156,7 +170,22 @@ public class SalesReportGUI {
 	
 	@SuppressWarnings("unchecked")
 	private void showSalesFigure() {
-		ObservableList<MonthlySale> salesData = this.salesData;
+		String startDate = startingMonthBox.getValue();
+		String endDate = endingMonthBox.getValue();
+		 
+		// Input Validation
+		if (startDate == null || endDate == null) {
+			JOptionPane.showMessageDialog(null, "You must select Start Date and End Date first!");
+		    return;
+		}
+		
+		// Filter the target month range
+		ObservableList<MonthlySale> filteredData = FXCollections.observableArrayList();
+		for (MonthlySale sale : salesData) {
+	        if (sale.getMonth().compareTo(startDate) >= 0 && sale.getMonth().compareTo(endDate) <= 0) {
+	            filteredData.add(sale);
+	        }
+	    }
 		
 		TableView<MonthlySale> table = new TableView<MonthlySale>();
 		table.setPrefWidth(900);
@@ -167,7 +196,7 @@ public class SalesReportGUI {
 		monthColumn.setStyle("-fx-alignment: CENTER;");
 		monthColumn.setPrefWidth(250);
 		
-		TableColumn<MonthlySale, String> amountColumn = new TableColumn<>("Amount");
+		TableColumn<MonthlySale, String> amountColumn = new TableColumn<>("Sales Amount");
 		amountColumn.setCellValueFactory(new PropertyValueFactory<>("salesAmount"));
 		amountColumn.setStyle("-fx-alignment: CENTER;");
 		amountColumn.setPrefWidth(250);
@@ -178,7 +207,7 @@ public class SalesReportGUI {
 		countColumn.setPrefWidth(250);
 		
 		table.getColumns().addAll(monthColumn, amountColumn, countColumn);
-		table.setItems(salesData);
+		table.setItems(filteredData);
 		gridPane.add(table, 0, 2);
 		
 		this.refreshMonthSelector();
