@@ -290,8 +290,20 @@ public class QueryHandler {
 	}
 	
 	public ResultSet getMonthlySalesFigure() throws Exception {
-		sqlStatement = "SELECT TO_CHAR(orderdate, 'YYYY-MM') AS month, COUNT(*) AS sales_count, SUM(carttotal) AS sales_amount, SUM(supplyCost) as supply_cost, SUM(carttotal - supplyCost) as revenue FROM comp231_orders NATURAL JOIN comp231_shopping_carts NATURAL JOIN comp231_cart_items NATURAL JOIN comp231_drugs GROUP BY TO_CHAR(orderdate, 'YYYY-MM') ORDER BY month";
+		sqlStatement = "SELECT TO_CHAR(orderdate, 'YYYY-MM') AS month, COUNT(*) AS sales_count, SUM(carttotal) AS sales_amount, SUM(supplyCost) as supply_cost, "
+				+ "SUM(carttotal - supplyCost) as revenue FROM comp231_orders NATURAL JOIN comp231_shopping_carts NATURAL JOIN comp231_cart_items "
+				+ "NATURAL JOIN comp231_drugs GROUP BY TO_CHAR(orderdate, 'YYYY-MM') ORDER BY month";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
+		resultSet = preparedStatement.executeQuery();
+		return resultSet;
+	}
+	
+	public ResultSet getDrugSalesRanking(String startMonth, String endMonth) throws Exception {
+		sqlStatement = "SELECT drugName, SUM(quantity) as sales_count FROM comp231_orders NATURAL JOIN comp231_shopping_carts NATURAL JOIN comp231_cart_items "
+				+ "NATURAL JOIN comp231_drugs WHERE TO_CHAR(orderdate, 'YYYY-MM') >= ? AND TO_CHAR(orderdate, 'YYYY-MM') <= ? GROUP BY drugName ORDER BY sales_count DESC";
+		preparedStatement = dbConnection.prepareStatement(sqlStatement);
+		preparedStatement.setString(1, startMonth);
+		preparedStatement.setString(2, endMonth);
 		resultSet = preparedStatement.executeQuery();
 		return resultSet;
 	}

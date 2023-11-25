@@ -45,9 +45,23 @@ public class SalesReportGUI {
 		public double getRevenue() { return this.revenue; }
 	}
 	
+	public class DrugSalesRanking {
+		private String drugName;
+		private int salesCount;
+		
+		public DrugSalesRanking(String drugName, int salesCount) {
+			this.drugName = drugName;
+			this.salesCount = salesCount;
+		}
+		
+		public String getDrugName() { return this.drugName; }
+		public int getSalesCount() { return this.salesCount; }
+	}
+	
 	private GridPane gridPane;
 	private QueryHandler queryHandler;
 	private ObservableList<MonthlySale> salesData = FXCollections.observableArrayList();
+	private ObservableList<DrugSalesRanking> drugSalesRankingData = FXCollections.observableArrayList();
 	private ObservableList<String> availableMonths = FXCollections.observableArrayList();
 	private ComboBox<String> startingMonthBox = new ComboBox<String>();
 	private ComboBox<String> endingMonthBox = new ComboBox<String>();
@@ -88,7 +102,10 @@ public class SalesReportGUI {
 		
 		Button generateButton = new Button("Generate Report");
 		generateButton.setOnAction(e -> { 
-			this.showSalesFigure(); 
+			fetchSalesFigure();
+			this.showSalesFigure();
+			fetchDrugSalesRanking();
+			
 		});
 		hbox.getChildren().add(generateButton);
 		
@@ -136,6 +153,8 @@ public class SalesReportGUI {
 		}
 		
 		try {
+			this.salesData.clear();
+			this.availableMonths.clear();
 			while (results.next()) {
 				String month = results.getString("month");
 				this.salesData.add(new MonthlySale(
@@ -146,6 +165,28 @@ public class SalesReportGUI {
 					results.getDouble("revenue")
 				));
 				this.availableMonths.add(month);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void fetchDrugSalesRanking() {
+		ResultSet results = null;
+		try {
+			results = this.queryHandler.getDrugSalesRanking(startingMonthBox.getValue(), endingMonthBox.getValue());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		try {
+			this.drugSalesRankingData.clear();
+			while (results.next()) {
+				this.drugSalesRankingData.add(new DrugSalesRanking(
+					results.getString("drugName"),
+					results.getInt("sales_count")
+				));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -171,9 +212,10 @@ public class SalesReportGUI {
 	        }
 	    }
 		
+		// Monthly Sales and Accounting Figure Table
 		TableView<MonthlySale> table = new TableView<MonthlySale>();
 		table.setPrefWidth(900);
-		table.setPrefHeight(340);
+		table.setPrefHeight(200);
 		
 		TableColumn<MonthlySale, String> monthColumn = new TableColumn<>("Month");
 		monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
@@ -203,6 +245,28 @@ public class SalesReportGUI {
 		table.getColumns().addAll(monthColumn, countColumn, amountColumn, costColumn, revenueColumn);
 		table.setItems(filteredData);
 		gridPane.add(table, 0, 2);
+		
+		// Drug Sales Ranking Table
+		Label title = new Label("Drug Sales Ranking");
+		this.gridPane.add(title, 0, 3);
+		
+		TableView<DrugSalesRanking> drugSalesRankingTable = new TableView<DrugSalesRanking>();
+		drugSalesRankingTable.setPrefWidth(900);
+		drugSalesRankingTable.setPrefHeight(200);
+		
+		TableColumn<DrugSalesRanking, String> drugNameColumn = new TableColumn<>("Drug Name");
+		drugNameColumn.setCellValueFactory(new PropertyValueFactory<>("drugName"));
+		drugNameColumn.setStyle("-fx-alignment: CENTER;");
+		drugNameColumn.setPrefWidth(150);
+		
+		TableColumn<DrugSalesRanking, Integer> salesCountColumn = new TableColumn<>("Sales Count");
+		salesCountColumn.setCellValueFactory(new PropertyValueFactory<>("salesCount"));
+		salesCountColumn.setStyle("-fx-alignment: CENTER;");
+		salesCountColumn.setPrefWidth(120);
+		
+		drugSalesRankingTable.getColumns().addAll(drugNameColumn, salesCountColumn);
+		drugSalesRankingTable.setItems(drugSalesRankingData);
+		gridPane.add(drugSalesRankingTable, 0, 4);
 		
 		this.refreshMonthSelector();
 	}
