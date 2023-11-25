@@ -35,7 +35,7 @@ public class NetworkLogGUI {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void showNetworkLogRecords() {
+	public void showNetworkLogRecords() {
 		Label instruction = new Label("Network Log for monitoring purpose.");
 		instruction.setPadding(new Insets(5, 0, 10, 0));
 		this.gridPane.add(instruction, 0, 0);

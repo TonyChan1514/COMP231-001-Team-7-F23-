@@ -43,22 +43,25 @@ public class Main extends Application {
         Tab orderMgtTab = new Tab("Order Management", orderMgtGUI.getGUI());
         tabPane.getTabs().add(orderMgtTab);
         
-        Tab drugInventoryTab = new Tab("Drug Inventory", new LowStockGUI(queryHandler).getGUI());
+        LowStockGUI lowStockInterface = new LowStockGUI(queryHandler);
+        Tab drugInventoryTab = new Tab("Drug Inventory", lowStockInterface.getGUI());
         tabPane.getTabs().add(drugInventoryTab);
         
-        Tab networkLogTab = new Tab("Network Log", new NetworkLogGUI(queryHandler).getGUI());
+        NetworkLogGUI networkLogInterface = new NetworkLogGUI(queryHandler);
+        Tab networkLogTab = new Tab("Network Log", networkLogInterface.getGUI());
         tabPane.getTabs().add(networkLogTab);
 
-        Tab salesReportTab = new Tab("Sales & Accounting Report", new SalesReportGUI(queryHandler).getGUI());
+        SalesReportGUI salesReportInterface = new SalesReportGUI(queryHandler);
+        Tab salesReportTab = new Tab("Sales & Accounting Report", salesReportInterface.getGUI());
         tabPane.getTabs().add(salesReportTab);
         
         tabPane.setPrefWidth(1200);
         tabPane.setPrefHeight(600);
         
-        // Refresh the customer ID list when click on "Shopping Cart" tab
+        // Refresh the customer ID list for specific tabs
         shoppingCartTab.setOnSelectionChanged(event -> {
             if (shoppingCartTab.isSelected()) {
-    			try {
+            	try {
     				customerCustomerInterface.refreshCustomerIDComboBox();
     			} catch (Exception e) {
     				e.printStackTrace();
@@ -73,6 +76,34 @@ public class Main extends Application {
     				e.printStackTrace();
     			}
             }
+        });
+        salesReportTab.setOnSelectionChanged(event -> {
+            if (salesReportTab.isSelected()) {
+            	try {
+            		salesReportInterface.fetchSalesFigure();
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+            }
+        });
+        drugInventoryTab.setOnSelectionChanged(event -> {
+            if (drugInventoryTab.isSelected()) {
+            	try {
+            		lowStockInterface.showDrugRecords();
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+            } 
+        });
+        networkLogTab.setOnSelectionChanged(event -> {
+            if (networkLogTab.isSelected()) {
+            	try {
+            		System.out.println("HI");
+            		networkLogInterface.showNetworkLogRecords();
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+            } 
         });
         
         // Create a scene and place the tab pane

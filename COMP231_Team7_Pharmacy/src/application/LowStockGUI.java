@@ -36,7 +36,7 @@ public class LowStockGUI {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void showDrugRecords() {
+	public void showDrugRecords() {
 		Label instruction = new Label("Drugs at low inventory level will be highlighted in red.");
 		instruction.setPadding(new Insets(5, 0, 10, 0));
 		this.gridPane.add(instruction, 0, 0);

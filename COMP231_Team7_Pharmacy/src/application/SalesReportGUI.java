@@ -143,7 +143,7 @@ public class SalesReportGUI {
 	    });
 	}
 	
-	private void fetchSalesFigure() {
+	public void fetchSalesFigure() {
 		ResultSet results = null;
 		try {
 			results = this.queryHandler.getMonthlySalesFigure();
