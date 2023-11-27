@@ -68,7 +68,7 @@ public class QueryHandler {
 		// Get the last customer id 
 		sqlStatement = "SELECT MAX(customerID) as last_customer_id FROM comp231_customers";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
-		resultSet = preparedStatement.executeQuery();
+		ResultSet resultSet = preparedStatement.executeQuery();
 		resultSet.next();
 		return resultSet.getInt("last_customer_id");
 	}
@@ -86,7 +86,7 @@ public class QueryHandler {
 		// Get the last prescription id 
 		sqlStatement = "SELECT MAX(drugID) as last_drug_id FROM comp231_drugs";
 		preparedStatement = dbConnection.prepareStatement(sqlStatement);
-		resultSet = preparedStatement.executeQuery();
+		ResultSet resultSet = preparedStatement.executeQuery();
 		resultSet.next();
 		return resultSet.getInt("last_drug_id");
 	}

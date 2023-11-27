@@ -2,7 +2,6 @@ package application;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -13,12 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 
 public class SalesReportGUI {
@@ -38,7 +35,9 @@ public class SalesReportGUI {
 			this.revenue = revenue;
 		}
 		
-		public String getMonth() { return this.month; }
+		public String getMonth() { 
+			return this.month; 
+		}
 		public double getSalesAmount() { return this.salesAmount; }
 		public int getSalesCount() { return this.salesCount; }
 		public double getSupplyCost() { return this.supplyCost; }

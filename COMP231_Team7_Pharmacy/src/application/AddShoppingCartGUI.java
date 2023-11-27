@@ -1,7 +1,6 @@
 package application;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
@@ -139,7 +138,6 @@ public class AddShoppingCartGUI {
 		loadCustomerAddress();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void generateDisplayGUI() throws Exception {
 	 // Set the width of all buttons
 	    double buttonWidth = 120;
