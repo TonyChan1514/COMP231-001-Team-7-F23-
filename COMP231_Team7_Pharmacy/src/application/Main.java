@@ -71,6 +71,7 @@ public class Main extends Application {
         orderMgtTab.setOnSelectionChanged(event -> {
             if (orderMgtTab.isSelected()) {
     			try {
+    				orderMgtGUI.refreshCustomerIDComboBox();
     				orderMgtGUI.refreshOrderIDComboBox();
     			} catch (Exception e) {
     				e.printStackTrace();

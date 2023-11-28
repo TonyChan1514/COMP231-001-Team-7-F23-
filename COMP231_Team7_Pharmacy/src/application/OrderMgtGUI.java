@@ -166,6 +166,9 @@ public class OrderMgtGUI {
 	
 	public void refreshCustomerIDComboBox() throws Exception {
 		int i; 
+		
+		// Temporary disable set on action
+		customerIDComboBox.setOnAction(null);
 			
 		// Insert "All Customers" option and the current available player ID list to combo box
 		customerIDLists = new String[queryHandler.getCustomerCount()+1];
@@ -181,6 +184,15 @@ public class OrderMgtGUI {
 		customerIDComboBox.getSelectionModel().clearSelection();
 		customerIDComboBox.setItems(FXCollections.observableArrayList(customerIDLists));
 		customerIDComboBox.getSelectionModel().selectFirst();
+		
+		// Resume set on action
+		customerIDComboBox.setOnAction(event -> {
+			try {
+				selectCustomerIDComboBox();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 	}
 	
 	public void refreshOrderIDComboBox() throws Exception {
