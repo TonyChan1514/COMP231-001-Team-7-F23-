@@ -99,7 +99,6 @@ public class Main extends Application {
         networkLogTab.setOnSelectionChanged(event -> {
             if (networkLogTab.isSelected()) {
             	try {
-            		System.out.println("HI");
             		networkLogInterface.showNetworkLogRecords();
     			} catch (Exception e) {
     				e.printStackTrace();
